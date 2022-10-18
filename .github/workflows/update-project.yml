@@ -1,0 +1,19 @@
+name: Sync and merge upstream repository
+on:
+  workflow_dispatch:
+  schedule: 
+  - cron: "0 8 * * *" #Runs at 8:00 UTC(5:00 in Korea) every day.
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Merge upstream
+        run: |
+          git config --global user.name 'HanHyunSoo'
+          git config --global user.email 'gustn4563@gmail.com'
+          git pull --unshallow
+          git remote add upstream https://github.com/HanHyunsoo/OnsuYumYumYumServer.git
+          git fetch upstream
+          git merge upstream/main
+          git push origin main
